@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unggah Satwa - Perlindungan Satwa</title>
+    <style>
+        header {
+            background-color: #4CAF50;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            color: #FFDD57;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="satwa.html">Satwa</a></li>
+                <li><a href="artikel.html">Artikel</a></li>
+                <li><a href="donasi.html">Donasi</a></li>
+                <li><a href="laporkan.html">Laporkan</a></li>
+                <li><a href="upload-satwa.html">Upload Satwa</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Formulir Unggah Satwa -->
+    <h1>Unggah Informasi Satwa</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label for="nama_hewan">Nama Hewan:</label>
+        <input type="text" name="nama_hewan" id="nama_hewan" required><br><br>
+
+        <label for="nama_latin">Nama Latin:</label>
+        <input type="text" name="nama_latin" id="nama_latin" required><br><br>
+
+        <label for="deskripsi">Deskripsi:</label>
+        <textarea name="deskripsi" id="deskripsi" rows="4" required></textarea><br><br>
+
+        <label for="status_lindungi">Status Lindungi:</label>
+        <select name="status_lindungi" id="status_lindungi" required>
+            <option value="Dilindungi">Dilindungi</option>
+            <option value="Terancam Punah">Terancam Punah</option>
+            <option value="Punah">Punah</option>
+            <option value="Tidak Dilindungi">Tidak Dilindungi</option>
+        </select><br><br>
+
+        <label for="wilayah">Wilayah:</label>
+        <input type="text" name="wilayah" id="wilayah" required><br><br>
+
+        <label for="populasi">Populasi:</label>
+        <input type="number" name="populasi" id="populasi" required><br><br>
+
+        <label for="file">Pilih Foto Hewan:</label>
+        <input type="file" name="file" id="file" required><br><br>
+
+        <button type="submit">Unggah</button>
+    </form>
+
+    <div id="message"></div>
+</body>
+</html>

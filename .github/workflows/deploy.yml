@@ -27,8 +27,16 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           echo "Navigating to the ARTEMIS-Frontend directory"
           cd /var/www/website/ARTEMIS-Frontend  
+          
           echo "Pulling latest changes from GitHub"
           git pull origin main
+
+          echo "Checking git status"
+          git status  # Menampilkan status setelah git pull
+
+          echo "Viewing the last commits"
+          git log --oneline -n 5  # Menampilkan 5 commit terakhir
+
           echo "Restarting Nginx"
           sudo systemctl restart nginx
         EOF

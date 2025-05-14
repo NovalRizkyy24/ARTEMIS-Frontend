@@ -26,7 +26,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           echo "Navigating to the ARTEMIS-Frontend directory"
-          cd /var/www/website/ARTEMIS-Frontend  # Gunakan path absolut jika diperlukan
+          cd /var/www/website/ARTEMIS-Frontend  
           echo "Pulling latest changes from GitHub"
           git pull origin main
           echo "Restarting Nginx"

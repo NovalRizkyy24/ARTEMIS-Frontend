@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporkan - Perlindungan Satwaa</title>
+    <title>Laporkan - Perlindungan Satwa</title>
     <style>
         /* Style untuk Header */
         header {
@@ -29,6 +29,31 @@
         nav ul li a:hover {
             color: #FFDD57;
         }
+
+        /* Style untuk Login Button */
+        .login-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: #FFDD57;
+            padding: 5px 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .login-btn:hover {
+            background-color: #FF9900;
+        }
+
+        /* Style untuk Pesan Sukses */
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -40,30 +65,49 @@
                 <li><a href="satwa.html">Satwa</a></li>
                 <li><a href="artikel.html">Artikel</a></li>
                 <li><a href="donasi.html">Donasi</a></li>
-                <li><a href="laporkan.html">Laporkan</a></li> <!-- Ganti laporan menjadi laporkan -->
-                <li><a href="upload-satwa.html">Upload Satwa</a></li>
+                <li><a href="laporkan.html">Laporkan</a></li>
             </ul>
         </nav>
+        <!-- Tautan Login -->
+        <a href="login.html" class="login-btn">Login</a>
     </header>
 
     <!-- Konten Laporkan -->
     <h1>Laporkan Perlindungan Satwa</h1>
     <p>Laporkan kejadian terkait satwa liar yang membutuhkan perlindungan atau yang sedang dalam bahaya.</p>
 
+    <!-- Menampilkan Pesan Sukses Jika Ada -->
+    <div id="success-message"></div>
+
     <section>
         <h2>Formulir Pelaporan</h2>
-        <form>
-            <label for="satwa">Nama Satwa:</label>
-            <input type="text" id="satwa" name="satwa" required><br><br>
-            
-            <label for="lokasi">Lokasi:</label>
-            <input type="text" id="lokasi" name="lokasi" required><br><br>
-            
-            <label for="deskripsi">Deskripsi:</label><br>
-            <textarea id="deskripsi" name="deskripsi" rows="4" cols="50" required></textarea><br><br>
-            
+        <form action="/laporkan" method="POST" enctype="multipart/form-data">
+            <label for="nama_pelapor">Nama Pelapor:</label>
+            <input type="text" id="nama_pelapor" name="nama_pelapor" required><br><br>
+
+            <label for="email_pelapor">Email Pelapor:</label>
+            <input type="email" id="email_pelapor" name="email_pelapor" required><br><br>
+
+            <label for="lokasi_kejadian">Lokasi Kejadian:</label>
+            <input type="text" id="lokasi_kejadian" name="lokasi_kejadian" required><br><br>
+
+            <label for="deskripsi_kejadian">Deskripsi Kejadian:</label><br>
+            <textarea id="deskripsi_kejadian" name="deskripsi_kejadian" rows="4" cols="50" required></textarea><br><br>
+
+            <label for="foto_bukti">Foto Bukti:</label>
+            <input type="file" name="foto_bukti" id="foto_bukti" required><br><br>
+
             <button type="submit">Laporkan</button>
         </form>
     </section>
+
+    <script>
+        // Menampilkan pesan sukses jika parameter 'message' ada di URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        if (message === 'laporan-berhasil') {
+            document.getElementById('success-message').innerHTML = '<div class="success-message">Laporan berhasil dikirim!</div>';
+        }
+    </script>
 </body>
 </html>

@@ -9,6 +9,7 @@
         header {
             background-color: #4CAF50;
             padding: 10px 0;
+            position: relative;
         }
         nav ul {
             list-style: none;
@@ -29,6 +30,22 @@
         nav ul li a:hover {
             color: #FFDD57;
         }
+
+        /* Style untuk Login Button */
+        .login-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: #FFDD57;
+            padding: 5px 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .login-btn:hover {
+            background-color: #FF9900;
+        }
     </style>
 </head>
 <body>
@@ -40,14 +57,15 @@
                 <li><a href="satwa.html">Satwa</a></li>
                 <li><a href="artikel.html">Artikel</a></li>
                 <li><a href="donasi.html">Donasi</a></li>
-                <li><a href="laporkan.html">Laporkan</a></li> <!-- Ganti laporan menjadi laporkan -->
-                <li><a href="upload-satwa.html">Upload Satwa</a></li>
+                <li><a href="laporkan.html">Laporkan</a></li>
             </ul>
         </nav>
+        <!-- Tautan Login -->
+        <a href="login.html" class="login-btn">Login</a>
     </header>
 
     <!-- Konten Halaman -->
-    <h1>Selamat datang di Website Perlindungan Satwaa</h1>
+    <h1>Selamat datang di Website Perlindungan Satwa</h1>
     <p>Konten untuk masing-masing bagian akan ditambahkan nanti.</p>
 </body>
 </html>

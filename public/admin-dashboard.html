@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Perlindungan Satwa</title>
+    <style>
+        header {
+            background-color: #4CAF50;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            color: #FFDD57;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .stats-box {
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 45%;
+        }
+
+        .stats-box h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .stats-box p {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="admin-dashboard.html">Dashboard</a></li>
+                <li><a href="manajemen-satwa.html">Manajemen Satwa</a></li>
+                <li><a href="upload-satwa.html">Upload Satwa</a></li>
+                <li><a href="hasil-laporan.html">Hasil Laporan</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Dashboard Admin</h1>
+
+    <!-- Stats Section -->
+    <div class="stats-container">
+        <div class="stats-box">
+            <h3>Total Laporan</h3>
+            <p id="laporan-count">Loading...</p>
+        </div>
+        <div class="stats-box">
+            <h3>Total Data Hewan</h3>
+            <p id="hewan-count">Loading...</p>
+        </div>
+    </div>
+
+    <div id="message"></div>
+
+    <script>
+        // Mengambil data statistik (jumlah laporan dan data hewan) dari backend
+        fetch('/api/dashboard-stats')
+            .then(response => response.json())
+            .then(data => {
+                // Menampilkan jumlah laporan dan data hewan
+                document.getElementById('laporan-count').textContent = data.laporanCount;
+                document.getElementById('hewan-count').textContent = data.hewanCount;
+            })
+            .catch(err => {
+                console.error('❌ Gagal mengambil data statistik:', err);
+                document.getElementById('laporan-count').textContent = 'Gagal memuat data';
+                document.getElementById('hewan-count').textContent = 'Gagal memuat data';
+            });
+    </script>
+</body>
+</html>

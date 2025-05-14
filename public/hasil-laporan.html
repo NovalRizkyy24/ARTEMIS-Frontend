@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Laporan - Perlindungan Satwa</title>
+    <style>
+        header {
+            background-color: #4CAF50;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            color: #FFDD57;
+        }
+        .report-list {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        .report-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .report-item h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .report-item p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li><a href="manajemen-satwa.html">Manajemen Satwa</a></li>
+            <li><a href="upload-satwa.html">Upload Satwa</a></li>
+            <li><a href="hasil-laporan.html">Hasil Laporan</a></li>
+        </ul>
+    </nav>
+</header>
+
+<h1>Laporan Perlindungan Satwa</h1>
+
+<!-- Menampilkan Laporan -->
+<div class="report-list" id="report-list">
+    <!-- Laporan akan ditampilkan di sini -->
+</div>
+
+<script>
+    // Mengambil data laporan dari backend
+    fetch('/api/laporan')
+        .then(response => response.json())
+        .then(data => {
+            const reportListContainer = document.getElementById('report-list');
+            reportListContainer.innerHTML = ''; // Mengosongkan kontainer sebelum menambahkan data
+
+            // Menampilkan laporan
+            data.forEach(laporan => {
+                const reportItem = document.createElement('div');
+                reportItem.classList.add('report-item');
+                reportItem.innerHTML = `
+                    <h3>Laporan ID: ${laporan.id_laporan}</h3>
+                    <p><strong>Nama Pelapor:</strong> ${laporan.nama_pelapor}</p>
+                    <p><strong>Email Pelapor:</strong> ${laporan.email_pelapor}</p>
+                    <p><strong>Lokasi Kejadian:</strong> ${laporan.lokasi_kejadian}</p>
+                    <p><strong>Deskripsi Kejadian:</strong> ${laporan.deskripsi_kejadian}</p>
+                    <p><strong>Foto Bukti:</strong> <a href="${laporan.foto_bukti}" target="_blank">Lihat Foto</a></p>
+                `;
+                reportListContainer.appendChild(reportItem);
+            });
+        })
+        .catch(err => {
+            console.error('❌ Gagal mengambil laporan:', err);
+        });
+</script>
+
+</body>
+</html>

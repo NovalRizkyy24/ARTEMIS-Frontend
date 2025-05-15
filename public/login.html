@@ -82,7 +82,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = '/admin-dashboard.html'; // Redirect to dashboard
+                window.location.href = data.redirect; // Redirect to the dashboard
             } else {
                 alert(data.message); // Show error message
             }

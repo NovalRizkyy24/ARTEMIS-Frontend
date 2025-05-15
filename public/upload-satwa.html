@@ -29,6 +29,25 @@
             color: #FFDD57;
         }
 
+        /* Popup style */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup.show {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -44,7 +63,7 @@
     </header>
 
     <!-- Formulir Unggah Satwa -->
-    <h1>Unggah Informasi Satwaa</h1>
+    <h1>Unggah Informasi Satwa</h1>
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <label for="nama_hewan">Nama Hewan:</label>
         <input type="text" name="nama_hewan" id="nama_hewan" required><br><br>
@@ -75,6 +94,30 @@
         <button type="submit">Unggah</button>
     </form>
 
-    <div id="message"></div>
+    <!-- Popup message -->
+    <div id="popup" class="popup"></div>
+
+    <script>
+        // Fungsi untuk menangani query string message
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+
+            const popup = document.getElementById('popup');
+
+            if (message === 'upload-success') {
+                popup.textContent = 'Data hewan berhasil diunggah!';
+                popup.classList.add('show');
+            } else if (message === 'upload-failed') {
+                popup.textContent = 'Gagal mengunggah data hewan. Silakan coba lagi.';
+                popup.classList.add('show');
+            }
+
+            // Menyembunyikan popup setelah beberapa detik
+            setTimeout(function() {
+                popup.classList.remove('show');
+            }, 5000);
+        };
+    </script>
 </body>
 </html>

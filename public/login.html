@@ -50,7 +50,7 @@
 
 <div class="login-container">
     <h2>Login</h2>
-    <form action="/login" method="POST">
+    <form id="login-form">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -64,6 +64,35 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '/admin-dashboard.html'; // Redirect to dashboard
+            } else {
+                alert(data.message); // Show error message
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Something went wrong, please try again.');
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -139,7 +139,8 @@
             deskripsi: document.getElementById('deskripsi').value,
             status_lindungi: document.getElementById('status_lindungi').value,
             wilayah: document.getElementById('wilayah').value,
-            populasi: document.getElementById('populasi').value
+            populasi: document.getElementById('populasi').value,
+            existing_image_url: document.getElementById('animal-image').src  // Send the current image URL if no new image
         };
 
         const formData = new FormData();
@@ -151,6 +152,7 @@
         formData.append('status_lindungi', updatedData.status_lindungi);
         formData.append('wilayah', updatedData.wilayah);
         formData.append('populasi', updatedData.populasi);
+        formData.append('existing_image_url', updatedData.existing_image_url);  // Add the existing image URL to the form data
 
         // If a new image is selected, append it to the formData
         const newImage = document.getElementById('new_image').files[0];
@@ -173,6 +175,7 @@
             alert('Failed to update the animal.');
         });
     });
+
 </script>
 
 </body>

@@ -28,26 +28,6 @@
         nav ul li a:hover {
             color: #FFDD57;
         }
-
-        /* Popup style */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            border-radius: 5px;
-            font-size: 18px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .popup.show {
-            display: block;
-        }
-
     </style>
 </head>
 <body>
@@ -94,29 +74,18 @@
         <button type="submit">Unggah</button>
     </form>
 
-    <!-- Popup message -->
-    <div id="popup" class="popup"></div>
-
     <script>
         // Fungsi untuk menangani query string message
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const message = urlParams.get('message');
 
-            const popup = document.getElementById('popup');
-
+            // Jika berhasil mengunggah, arahkan ke halaman manajemen-satwa.html
             if (message === 'upload-success') {
-                popup.textContent = 'Data hewan berhasil diunggah!';
-                popup.classList.add('show');
+                window.location.href = 'manajemen-satwa.html'; // Redirect ke halaman manajemen satwa
             } else if (message === 'upload-failed') {
-                popup.textContent = 'Gagal mengunggah data hewan. Silakan coba lagi.';
-                popup.classList.add('show');
+                alert('Gagal mengunggah data hewan. Silakan coba lagi.');
             }
-
-            // Menyembunyikan popup setelah beberapa detik
-            setTimeout(function() {
-                popup.classList.remove('show');
-            }, 5000);
         };
     </script>
 </body>

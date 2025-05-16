@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Data Satwa</title>
+    <style>
+        header {
+            background-color: #4CAF50;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            color: #FFDD57;
+        }
+        .report-list {
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        .report-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .report-item h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .report-item p {
+            font-size: 14px;
+        }
+
+        /* Styles for the image preview */
+        .image-preview {
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li><a href="admin-dashboard.html">Dashboard</a></li>
+            <li><a href="manajemen-satwa.html">Manajemen Satwa</a></li>
+            <li><a href="upload-satwa.html">Upload Satwa</a></li>
+            <li><a href="hasil-laporan.html">Hasil Laporan</a></li>
+        </ul>
+    </nav>
+</header>
+
+<h1>Update Data Satwa</h1>
+
+<!-- Display Image Preview -->
+<div>
+    <h3>Gambar:</h3>
+    <img id="animal-image" class="image-preview" src="" alt="Animal Image" />
+</div>
+
+<!-- Form for updating the animal data -->
+<form id="update-animal-form" enctype="multipart/form-data">
+    <label for="nama_hewan">Nama Hewan:</label>
+    <input type="text" id="nama_hewan" name="nama_hewan" required><br><br>
+
+    <label for="nama_latin">Nama Latin:</label>
+    <input type="text" id="nama_latin" name="nama_latin" required><br><br>
+
+    <label for="deskripsi">Deskripsi:</label>
+    <textarea id="deskripsi" name="deskripsi" required></textarea><br><br>
+
+    <label for="status_lindungi">Status Perlindungan:</label>
+    <input type="text" id="status_lindungi" name="status_lindungi" required><br><br>
+
+    <label for="wilayah">Wilayah:</label>
+    <input type="text" id="wilayah" name="wilayah" required><br><br>
+
+    <label for="populasi">Populasi:</label>
+    <input type="number" id="populasi" name="populasi" required><br><br>
+
+    <!-- New image input -->
+    <label for="new_image">Pilih Gambar Baru:</label>
+    <input type="file" id="new_image" name="new_image"><br><br>
+
+    <button type="submit" class="button update-btn">Update Animal</button>
+</form>
+
+<script>
+    // Extract the animal ID from the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const animalId = urlParams.get('id');  // Get the animal ID from the URL
+
+    // Fetch the animal data from the server
+    fetch(`/api/data-hewan/${animalId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Pre-fill the form with the current animal data
+            document.getElementById('nama_hewan').value = data.nama_hewan;
+            document.getElementById('nama_latin').value = data.nama_latin;
+            document.getElementById('deskripsi').value = data.deskripsi;
+            document.getElementById('status_lindungi').value = data.status_lindungi;
+            document.getElementById('wilayah').value = data.wilayah;
+            document.getElementById('populasi').value = data.populasi;
+
+            // Display the current image
+            document.getElementById('animal-image').src = data.urlfoto;
+        })
+        .catch(err => {
+            console.error('Error fetching animal data:', err);
+            alert('Unable to fetch the animal data.');
+        });
+
+    // Handle form submission to update the animal data
+    document.getElementById('update-animal-form').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent default form submission
+
+        // Collect the updated data from the form
+        const updatedData = {
+            nama_hewan: document.getElementById('nama_hewan').value,
+            nama_latin: document.getElementById('nama_latin').value,
+            deskripsi: document.getElementById('deskripsi').value,
+            status_lindungi: document.getElementById('status_lindungi').value,
+            wilayah: document.getElementById('wilayah').value,
+            populasi: document.getElementById('populasi').value
+        };
+
+        const formData = new FormData();
+
+        // Append updated data
+        formData.append('nama_hewan', updatedData.nama_hewan);
+        formData.append('nama_latin', updatedData.nama_latin);
+        formData.append('deskripsi', updatedData.deskripsi);
+        formData.append('status_lindungi', updatedData.status_lindungi);
+        formData.append('wilayah', updatedData.wilayah);
+        formData.append('populasi', updatedData.populasi);
+
+        // If a new image is selected, append it to the formData
+        const newImage = document.getElementById('new_image').files[0];
+        if (newImage) {
+            formData.append('new_image', newImage);
+        }
+
+        // Send the updated data and image to the backend
+        fetch(`/api/data-hewan/${animalId}`, {
+            method: 'PUT',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(() => {
+            alert('Animal updated successfully!');
+            window.location.href = 'manajemen-satwa.html';  // Redirect to the main page
+        })
+        .catch(err => {
+            console.error('Error updating animal:', err);
+            alert('Failed to update the animal.');
+        });
+    });
+</script>
+
+</body>
+</html>

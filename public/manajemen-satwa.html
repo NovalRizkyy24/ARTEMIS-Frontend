@@ -129,7 +129,7 @@
                     <td>${animal.populasi}</td>
                     <td><img src="${animal.urlfoto}" alt="${animal.nama_hewan}" width="100" /></td>
                     <td>
-                        <button class="button update-btn" onclick="editAnimal(${animal.id_hewan})">Update</button>
+                        <button class="button update-btn" onclick="editAnimal(${animal.id_hewan})">Edit</button>
                         <button class="button delete-btn" onclick="deleteAnimal(${animal.id_hewan})">Delete</button>
                     </td>
                 `;
@@ -137,35 +137,9 @@
         })
         .catch(err => console.error('Error fetching animal data:', err));
 
-    // Function to handle updating an animal
+    // Function to handle redirect to update page
     function editAnimal(id) {
-        const newName = prompt("Enter new animal name:");
-        const newLatin = prompt("Enter new latin name:");
-        const newDescription = prompt("Enter new description:");
-        const newStatus = prompt("Enter new protection status:");
-        const newRegion = prompt("Enter new region:");
-        const newPopulation = prompt("Enter new population:");
-
-        fetch(`/api/data-hewan/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                nama_hewan: newName,
-                nama_latin: newLatin,
-                deskripsi: newDescription,
-                status_lindungi: newStatus,
-                wilayah: newRegion,
-                populasi: newPopulation,
-            })
-        })
-        .then(response => response.text())
-        .then(() => {
-            alert("Animal updated successfully!");
-            window.location.reload(); // Reload the page to see the updated data
-        })
-        .catch(err => console.error('Error updating animal:', err));
+        window.location.href = `edit-datahewan.html?id=${id}`;
     }
 
     // Function to handle deleting an animal

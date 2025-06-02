@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perlindungan Satwa</title>
+    <title>Perlindungan Satwa - ARTEMIS</title>
     <style>
         /* Style untuk Header */
         header {
-            background-color: #4CAF50;
+            background-color: #4CAF50; /* Warna hijau untuk header */
             padding: 10px 0;
-            position: relative;
+            position: relative; /* Diperlukan untuk positioning absolut tombol login */
+            z-index: 10; /* Memastikan header di atas background jika ada tumpang tindih */
+            transform: scaleX(-1); /* Membatalkan efek mirror dari body untuk header */
         }
         nav ul {
             list-style: none;
@@ -28,28 +30,117 @@
             font-weight: bold;
         }
         nav ul li a:hover {
-            color: #FFDD57;
+            color: #FFDD57; /* Warna kuning saat hover */
         }
 
         /* Style untuk Login Button */
         .login-btn {
             position: absolute;
-            top: 10px;
+            top: 50%; /* Posisikan di tengah vertikal header */
+            transform: translateY(-50%); /* Penyesuaian agar benar-benar di tengah */
             right: 20px;
-            background-color: #FFDD57;
-            padding: 5px 15px;
+            background-color: #FFDD57; /* Warna kuning untuk tombol login */
+            padding: 8px 15px;
             text-decoration: none;
-            color: white;
+            color: #4CAF50;
             font-weight: bold;
             border-radius: 5px;
+            font-size: 16px;
         }
         .login-btn:hover {
-            background-color: #FF9900;
+            background-color: #FFC300; /* Warna kuning lebih gelap saat hover */
+            color: white;
         }
+
+        /* Style untuk Background Full Layar (DIMIRORKAN HORIZONTAL) */
+        body {
+            background-image: url('img/background.png'); /* Path ke gambar Anda */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding-bottom: 20px;
+            transform: scaleX(-1); /* MEMIRORKAN GAMBAR LATAR BELAKANG SECARA HORIZONTAL */
+        }
+
+        /* Style untuk Konten Halaman */
+        .content-container {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            transform: scaleX(-1); /* Membatalkan efek mirror dari body untuk konten utama */
+            /* Jika Anda ingin kontainer ini sendiri yang mengatur lebar dan posisi kiri:
+               max-width: 900px; 
+               margin-left: 5%; 
+               margin-right: auto; 
+            */
+        }
+
+        .content-container h1,
+        .content-container p {
+            color: #FFFFFF; /* Warna teks putih */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Bayangan teks untuk keterbacaan */
+            
+            background-color: transparent; /* Menghilangkan background box */
+            padding: 0; /* Menghilangkan padding box */
+            border-radius: 0; /* Menghilangkan border-radius box */
+            box-shadow: none; /* Menghilangkan shadow box */
+            
+            /* Mengatur posisi blok ke kiri */
+            margin-top: 30px;
+            margin-bottom: 15px; /* Disesuaikan untuk h1 */
+            margin-left: 5%; /* Geser blok 5% dari kiri parent (.content-container) */
+            margin-right: auto; /* Biarkan sisi kanan menyesuaikan, menghormati max-width */
+            
+            max-width: 800px; /* Batas lebar maksimum konten */
+            text-align: left; /* Teks rata kiri di dalam blok */
+        }
+
+        .content-container h1 {
+            font-size: 2.8em; /* Sedikit lebih besar */
+            /* margin-left sudah diatur di atas */
+        }
+
+        .content-container p {
+            font-size: 1.2em; /* Sedikit lebih besar */
+            line-height: 1.7;
+            margin-top: 0; /* Hapus margin atas paragraf jika h1 sudah punya margin-bottom */
+            margin-bottom: 25px; /* Jarak bawah dari paragraf ke tombol */
+            /* margin-left sudah diatur di atas */
+        }
+
+        /* Style untuk Tombol Laporkan & Kontainernya */
+        .button-container {
+            max-width: 800px; /* Samakan dengan max-width elemen teks */
+            margin-top: 0;
+            margin-bottom: 30px;
+            margin-left: 5%; /* Geser blok 5% dari kiri parent (.content-container) */
+            margin-right: auto;
+            text-align: left; /* Pastikan tombolnya sendiri rata kiri dalam kontainer ini */
+        }
+
+        .report-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 28px; /* Sedikit lebih besar paddingnya */
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.15em; /* Sedikit lebih besar */
+            /* margin-left: 0; /* Dihapus karena .button-container mengatur posisi kiri */
+            transition: background-color 0.3s ease;
+            border: 2px solid #3e8e41; /* Tambahan border agar lebih menonjol */
+        }
+        .report-btn:hover {
+            background-color: #3e8e41; /* Warna hijau lebih gelap saat hover */
+            border-color: #367c39;
+        }
+
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav>
             <ul>
@@ -60,12 +151,16 @@
                 <li><a href="laporkan.html">Laporkan</a></li>
             </ul>
         </nav>
-        <!-- Tautan Login -->
         <a href="login.html" class="login-btn">Login</a>
     </header>
 
-    <!-- Konten Halaman -->
-    <h1>Selamat datang di Website Perlindungan Satwa Liar khusus mas Alfin</h1>
-    <p>Konten untuk masing-masing bagian akan ditambahkan nanti.</p>
+    <div class="content-container">
+        <h1>ARTEMIS</h1>
+        <p>ARTEMIS (Aksi Responsif Terhadap Ekosistem dan Perlindungan Spesies Indonesia) sebuah aplikasi untuk melaporkan tindakan ilegal terhadap satwa dan ekosistem yang ada di Indonesia untuk mendukung SDGs (Sustainable Development Goals). Laporkan temuan tindakan ilegal terhadap satwa dan ekosistem yang ada.</p>
+        <div class="button-container">
+            <a href="laporkan.html" class="report-btn">LAPORKAN</a>
+        </div>
+    </div>
+
 </body>
 </html>

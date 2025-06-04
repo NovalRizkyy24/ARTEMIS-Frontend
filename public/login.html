@@ -3,96 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Perlindungan Satwa</title>
+    <title>Artemis - Together, We Can Save the Wild</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nature-dark': '#2D5016',
+                        'nature-primary': '#4A7C59',
+                        'nature-light': '#6B9080',
+                        'nature-pale': '#A4C3A2',
+                        'nature-bg': '#E8F5E8',
+                    },
+                    fontFamily: {
+                        'nature': ['Space Grotesk', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-reverse': 'float 8s ease-in-out infinite reverse',
+                        'gradient-shift': 'gradient-shift 3s ease-in-out infinite',
+                        'slide-in': 'slide-in 0.8s ease-out',
+                        'pulse-gentle': 'pulse-gentle 2s ease-in-out infinite',
+                        'shimmer': 'shimmer 0.5s ease-out',
+                        'slide-in-right': 'slide-in-right 0.3s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            padding: 50px;
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap');
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
         }
-        .login-container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
-        h2 {
-            text-align: center;
+        
+        @keyframes slide-in {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
-        .form-group {
-            margin-bottom: 20px;
+        
+        @keyframes pulse-gentle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
-        .form-group label {
-            font-size: 16px;
-            display: block;
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
-        .form-group input {
+        
+        @keyframes slide-in-right {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .bg-nature-gradient {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('img/background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2D5016, #4A7C59, #6B9080, #A4C3A2);
+            background-size: 300% 100%;
+            animation: gradient-shift 3s ease-in-out infinite;
+        }
+        
+        .btn-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
-        .form-group input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
+        
+        .btn-shimmer:hover::before {
+            left: 100%;
         }
-        .form-group input[type="submit"]:hover {
-            background-color: #45a049;
+        
+        .input-focus:focus {
+            box-shadow: 0 0 0 4px rgba(74, 124, 89, 0.1);
         }
     </style>
 </head>
-<body>
+<body class="font-nature bg-nature-gradient min-h-screen flex items-center justify-center p-4">
+    <!-- Background Animation Container -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-10 left-10 text-6xl text-nature-pale opacity-20 animate-float">🌿</div>
+        <div class="absolute top-32 right-20 text-4xl text-nature-light opacity-20 animate-float-reverse">🍃</div>
+        <div class="absolute bottom-20 left-20 text-5xl text-nature-primary opacity-20 animate-float">🌱</div>
+        <div class="absolute bottom-40 right-10 text-3xl text-nature-pale opacity-20 animate-float-reverse">🌾</div>
+    </div>
 
-<div class="login-container">
-    <h2>Login</h2>
-    <form id="login-form">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+    <!-- Main Login Container -->
+    <div class="glassmorphism rounded-3xl p-8 md:p-12 w-full max-w-md shadow-2xl animate-slide-in relative overflow-hidden gradient-border bg-">
+        
+        <!-- Back Button with Arrow Icon and Nature Gradient Background -->
+        <a href="index.html" class="fas fa-arrow-left text-2xl text-green-700 mr-2"></a>
+
+        <!-- Decorative Elements -->
+        <div class="absolute top-4 right-4 text-2xl text-nature-light opacity-10 animate-float">🍃</div>
+        <div class="absolute bottom-4 left-4 text-xl text-nature-primary opacity-10 animate-float-reverse">🌿</div>
+        
+        <!-- Logo Section -->
+        <div class="text-center mb-8 relative">
+            <div class="relative inline-block">
+                <img src="img/logo.png" alt="Artemis Logo" 
+                     class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover mx-auto shadow-lg shadow-nature-primary/30 animate-pulse-gentle hover:scale-110 transition-all duration-300 ring-4 ring-nature-bg">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-nature-primary/20 to-transparent"></div>
+            </div>
+            
+            <!-- Title -->
+            <h1 class="text-3xl md:text-4xl font-bold text-nature-dark mt-6 mb-2 tracking-tight">
+                <span class="bg-gradient-to-r from-nature-dark via-nature-primary to-nature-light bg-clip-text text-transparent">
+                    ARTEMIS
+                </span>
+            </h1>
+            
+            <!-- Slogan -->
+            <p class="text-nature-light font-medium text-sm md:text-base leading-relaxed">
+                Together, We Can Save the Wild
+            </p>
+            
+            <!-- Decorative Line -->
+            <div class="w-16 h-0.5 bg-gradient-to-r from-nature-primary to-nature-light mx-auto mt-4 rounded-full"></div>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+
+        <!-- Login Form -->
+        <form id="login-form" class="space-y-6">
+            
+            <!-- Username Field -->
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                    <svg class="w-5 h-5 text-nature-light group-focus-within:text-nature-primary transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <input type="text" id="username" required
+                       class="input-focus w-full pl-12 pr-4 py-4 bg-white/80 border-2 border-nature-bg rounded-2xl text-nature-dark placeholder-nature-pale font-medium focus:border-nature-primary focus:bg-white transition-all duration-300 hover:-translate-y-0.5"
+                       placeholder="Enter your username">
+            </div>
+            
+            <!-- Password Field -->
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                    <svg class="w-5 h-5 text-nature-light group-focus-within:text-nature-primary transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <input type="password" id="password" required
+                       class="input-focus w-full pl-12 pr-12 py-4 bg-white/80 border-2 border-nature-bg rounded-2xl text-nature-dark placeholder-nature-pale font-medium focus:border-nature-primary focus:bg-white transition-all duration-300 hover:-translate-y-0.5"
+                       placeholder="Enter your password">
+                
+                <!-- Show/Hide Password Toggle -->
+                <button type="button" onclick="togglePassword()" 
+                        class="absolute inset-y-0 right-0 pr-4 flex items-center text-nature-light hover:text-nature-primary transition-colors duration-200">
+                    <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center space-x-2 cursor-pointer group">
+                    <input type="checkbox" class="w-4 h-4 text-nature-primary bg-white border-2 border-nature-bg rounded focus:ring-nature-primary focus:ring-2 transition-colors duration-200">
+                    <span class="text-nature-light group-hover:text-nature-primary transition-colors duration-200 font-medium">Remember me</span>
+                </label>
+                
+                <a href="#" onclick="showForgotPassword()" 
+                   class="text-nature-primary hover:text-nature-dark font-medium transition-colors duration-200 hover:underline">
+                    Forgot Password?
+                </a>
+            </div>
+            
+            <!-- Login Button -->
+            <button type="submit" 
+                    class="btn-shimmer relative w-full py-4 bg-gradient-to-r from-nature-dark to-nature-primary text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 focus:ring-4 focus:ring-nature-primary/30 transition-all duration-300 overflow-hidden group">
+                
+                <!-- Loading Spinner -->
+                <div id="loading" class="hidden inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                
+                <!-- Button Text -->
+                <span id="btn-text" class="relative z-10">SIGN IN</span>
+                
+                <!-- Hover Gradient Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-r from-nature-primary to-nature-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+        </form>
+        
+        <!-- Sign Up Link
+        <div class="text-center">
+            <a href="#" onclick="showSignUp()" 
+               class="inline-flex items-center space-x-2 text-nature-primary hover:text-nature-dark font-semibold transition-colors duration-200 group">
+                <span>Join Our Mission</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+            </a>
+        </div> -->
+        
+        <!-- Footer Quote -->
+        <div class="mt-8 text-center">
+            <p class="text-xs text-nature-light/80 italic leading-relaxed">
+                "In every walk with nature, one receives far more than they seek." 
+                <br class="hidden sm:inline">
+                <span class="font-medium">- John Muir</span>
+            </p>
         </div>
-        <div class="form-group">
-            <input type="submit" value="Login">
-        </div>
-    </form>
-</div>
+    </div>
 
-<script>
-    document.getElementById('login-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = data.redirect; // Redirect to the dashboard
+    <script>
+        // Toggle Password Visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                `;
             } else {
-                alert(data.message); // Show error message
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Something went wrong, please try again.');
-        });
-    });
-</script>
+        }
 
+        // Show Forgot Password Message
+        function showForgotPassword() {
+            showCustomAlert('🌿 Password Recovery', 'We\'ll help you recover your account! Contact our support team at help@artemis.org or use the "Join Our Mission" option to create a new account.', 'info');
+        }
+
+        // Show Sign Up Message
+        function showSignUp() {
+            showCustomAlert('🌱 Join Artemis', 'Ready to make a difference? Sign up feature coming soon! Together we can save the wild, one step at a time.', 'success');
+        }
+
+        // Custom Alert Function
+        function showCustomAlert(title, message, type = 'info') {
+            const colors = {
+                info: 'from-green-500 to-green-600',
+                success: 'from-green-500 to-green-600',
+                error: 'from-red-500 to-red-600',
+                warning: 'from-yellow-500 to-yellow-600'
+            };
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `fixed top-4 right-4 max-w-sm bg-gradient-to-r ${colors[type]} text-white p-4 rounded-2xl shadow-2xl z-50 animate-slide-in-right`;
+            alertDiv.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm mb-1">${title}</h4>
+                        <p class="text-sm opacity-90 leading-relaxed">${message}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            class="text-white/80 hover:text-white transition-colors duration-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.style.animation = 'slide-in-right 0.3s ease-out reverse';
+                    setTimeout(() => alertDiv.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        // Main Login Form Handler
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Show loading state
+            const loadingEl = document.getElementById('loading');
+            const btnTextEl = document.getElementById('btn-text');
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            
+            loadingEl.classList.remove('hidden');
+            btnTextEl.textContent = 'Connecting to Nature...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    btnTextEl.textContent = '✅ Welcome to Artemis!';
+                    showCustomAlert('🎉 Login Successful', 'Welcome back, nature guardian! Redirecting you to your dashboard...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1500);
+                } else {
+                    resetButtonState(loadingEl, btnTextEl, submitBtn);
+                    showCustomAlert('🚫 Login Failed', data.message || 'Please check your credentials and try again.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resetButtonState(loadingEl, btnTextEl, submitBtn);
+                showCustomAlert('⚠️ Connection Error', 'Something went wrong with the connection. Please try again.', 'error');
+            });
+        });
+
+        // Reset Button State Function
+        function resetButtonState(loadingEl, btnTextEl, submitBtn) {
+            loadingEl.classList.add('hidden');
+            btnTextEl.textContent = 'SIGN IN';
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+        }
+
+        // Enhanced Input Interactions
+        document.querySelectorAll('input[type="text"], input[type="password"]').forEach(input => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('login-form').dispatchEvent(new Event('submit'));
+                }
+            });
+
+            // Add floating label effect
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('scale-105');
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('scale-105');
+            });
+        });
+
+        // Welcome animation on page load
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                showCustomAlert('🌿 Welcome to Artemis!', 'Your gateway to wildlife conservation. Sign in to continue your mission!', 'info');
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

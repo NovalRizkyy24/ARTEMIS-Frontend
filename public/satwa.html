@@ -1,154 +1,437 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Satwa - Perlindungan Satwa</title>
+    <title>Satwa - ARTEMIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Style untuk Header */
-        header {
-            background-color: #4CAF50;
-            padding: 10px 0;
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 20px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        nav ul li a:hover {
-            color: #FFDD57;
-        }
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .card {
-            width: 250px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .card img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-        .card h3 {
-            font-size: 20px;
-            margin: 10px 0;
-        }
-        .card p {
-            font-size: 14px;
-            color: #555;
-        }
-        .card .status {
-            font-weight: bold;
-        }
-        .card .details {
-            margin-top: 10px;
-        }
-        .card .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            margin-top: 10px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .card .btn:hover {
-            background-color: #45a049;
+        body {
+            font-family: 'Space Grotesk', sans-serif;
         }
 
-        /* Style untuk Login Button */
-        .login-btn {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            background-color: #FFDD57;
-            padding: 5px 15px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-            border-radius: 5px;
+        @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
         }
-        .login-btn:hover {
-            background-color: #FF9900;
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+        .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
+        .animate-pulse-slow { animation: pulse 3s ease-in-out infinite; }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #10b981, #059669, #047857);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .article-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .article-card:hover::before {
+            left: 100%;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #10b981; }
+        }
+
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: none; /* Removed transform transition */
+        }
+
+        .popup-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95); /* Slightly smaller scale initially */
+            width: 60%;
+            max-width: 700px;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transition */
+        }
+
+        .popup-card.visible {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1); /* Popup appears smoothly */
+        }
+
+        .popup-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+
+        .popup-card .popup-content {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+
+        .popup-card.visible {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .popup-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 1rem;
         }
 
     </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="satwa.html">Satwa</a></li>
-                <li><a href="artikel.html">Artikel</a></li>
-                <li><a href="donasi.html">Donasi</a></li>
-                <li><a href="laporkan.html">Laporkan</a></li>
-            </ul>
+<body class="min-h-screen bg-gray-50">
+     <!-- Header -->
+    <header class="relative z-20 bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 shadow-2xl">
+        <div class="absolute inset-0 bg-black/10"></div>
+        <nav class="container mx-auto px-6 py-4 relative">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 animate-slide-in-left">
+                    <div class="w-12 h-12">
+                        <img src="img/logo.png" alt="Artemis Logo" class="w-12 h-12" />
+                    </div>
+                    <span class="text-3xl font-bold text-white transition-all duration-300 hover:text-green-500">ARTEMIS</span>
+                </div>
+                <ul class="hidden md:flex space-x-8 text-white">
+                    <li><a href="index.html" class="hover:text-green-300 font-bold transition-all duration-300 relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-300 transition-all duration-300 group-hover:w-full"></span>
+                    </a></li>
+                    <li><a href="Satwa.html" class="hover:text-green-300 font-bold transition-all duration-300 relative group text-green-300">
+                        Satwa
+                        <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-green-300"></span>
+                    </a></li>
+                    <li><a href="artikel.html" class="hover:text-green-300 font-bold transition-all duration-300 relative group">
+                        Artikel
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-300 transition-all duration-300 group-hover:w-full"></span>
+                    </a></li>
+                    <li><a href="donasi.html" class="hover:text-green-300 font-bold transition-all duration-300 relative group">
+                        Donasi
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-300 transition-all duration-300 group-hover:w-full"></span>
+                    </a></li>
+                    <li><a href="laporkan.html" class="hover:text-green-300 font-bold transition-all duration-300 relative group">
+                        Laporkan
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-300 transition-all duration-300 group-hover:w-full"></span>
+                    </a></li>
+                </ul>
+                <a href="login.html" class="bg-white/20 glass-effect hover:bg-white/30 text-white px-6 py-2 rounded-full font-bold transition-all duration-300 hover:scale-105 animate-slide-in-right">
+                    Login
+                </a>
+            </div>
         </nav>
-        <!-- Tautan Login -->
-        <a href="login.html" class="login-btn">Login</a>
     </header>
 
-    <h1>Perlindungan Satwa</h1>
-    <p>Informasi tentang satwa yang terdaftar dalam sistem perlindungan kamii:</p>
+    <!-- Main Content -->
+    <main class="relative z-10 py-20 parallax-bg" style="background-image: linear-gradient(rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.8)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 600%22><defs><pattern id=%22leaves%22 patternUnits=%22userSpaceOnUse%22 width=%22100%22 height=%22100%22><circle cx=%2250%22 cy=%2250%22 r=%222%22 fill=%22rgba(255,255,255,0.1)%22/></pattern></defs><rect width=%22100%25%22 height=%22100%25%22 fill=%22url(%23leaves)%22/></svg>');">
+        <div class="container mx-auto px-6 text-center">
+            <div class="animate-fade-in-up">
+                <h1 class="text-6xl font-bold text-white mb-6 typing-effect" style="display: inline-block;">
+                    Satwa yang Dilindungi
+                </h1>
+                <p class="text-white/90 text-xl max-w-3xl mx-auto leading-relaxed mb-12" style="animation-delay: 0.3s;">
+                    Temukan berbagai satwa yang dilindungi dan pelajari lebih lanjut tentang mereka.
+                </p>
+                
+            <!-- Wrapper Container for data-hewan-container -->
+            <div class="bg-white rounded-3xl p-8 shadow-lg">
+                <div id="data-hewan-container" class="grid md:grid-cols-5 gap-8">
+                    <!-- Wildlife data will be injected here -->
+                </div>
+            </div>
 
-    <!-- Kontainer untuk menampilkan data hewan -->
-    <div class="card-container" id="data-hewan-container">
-        <!-- Data hewan akan ditampilkan di sini -->
+        </div>
+    </main>
+
+
+
+    <!-- Popup Card -->
+    <div id="popup-card" class="popup-card">
+        <div class="popup-content">
+            <img id="popup-img" src="" alt="Popup Image" />
+            <h3 class="text-2xl font-semibold mt-4" id="popup-name"></h3>
+            <p id="popup-latin" class="italic text-gray-600"></p>
+            <p id="popup-description" class="text-gray-600 mt-2"></p>
+            <div class="details mt-4">
+                <p class="status" id="popup-status"></p>
+                <p id="popup-region"></p>
+                <p id="popup-population"></p>
+            </div>
+            <a href="" target="_blank" id="popup-link" class="btn">Lihat Foto</a>
+        </div>
     </div>
 
-    <script>
-        // Mengambil data hewan dari backend
-        fetch('/api/data-hewan')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('data-hewan-container');
-                container.innerHTML = ''; // Mengosongkan kontainer sebelum mengisi dengan data
-
-                data.forEach(hewan => {
-                    const card = document.createElement('div');
-                    card.classList.add('card');
-
-                    // Menyusun HTML untuk setiap data hewan
-                    card.innerHTML = `
-                        <img src="${hewan.urlfoto}" alt="${hewan.nama_hewan}">
-                        <h3>${hewan.nama_hewan}</h3>
-                        <p>"${hewan.nama_latin}"</p>
-                        <p>"${hewan.deskripsi}"</p>
-                        <div class="details">
-                            <p class="status">Status Perlindungan: ${hewan.status_lindungi}</p>
-                            <p>Wilayah: ${hewan.wilayah}</p>
-                            <p>Populasi: ${hewan.populasi}</p>
+    <!-- Footer -->
+    <footer class="relative z-10 bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="animate-slide-in-left">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-12 h-12">
+                            <img src="img/logo.png" alt="Artemis Logo" class="w-12 h-12" />
                         </div>
-                        <a href="${hewan.urlfoto}" target="_blank" class="btn">Lihat Foto</a>
-                    `;
-                    container.appendChild(card);
+                        <span class="text-2xl font-bold gradient-text">ARTEMIS</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">
+                        Melindungi satwa dan ekosistem Indonesia untuk generasi mendatang melalui edukasi, konservasi, dan aksi nyata.
+                    </p>
+                </div>
+                <div class="animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <h4 class="font-bold mb-6 text-lg">Navigasi</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-emerald-400 flex items-center">
+                            <span class="mr-2 group-hover:mr-3 transition-all">🏠</span> Home
+                        </a></li>
+                        <li><a href="satwa.html" class="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center group">
+                            <span class="mr-2 group-hover:mr-3 transition-all">🦋</span> Satwa
+                        </a></li>
+                        <li><a href="artikel.html" class="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center group">
+                            <span class="mr-2">📚</span> Artikel
+                        </a></li>
+                        <li><a href="donasi.html" class="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center group">
+                            <span class="mr-2 group-hover:mr-3 transition-all">💚</span> Donasi
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <h4 class="font-bold mb-6 text-lg">Aksi</h4>
+                    <ul class="space-y-3">
+                        <li><a href="laporkan.html" class="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center group">
+                            <span class="mr-2 group-hover:mr-3 transition-all">📢</span> Laporkan
+                        </a></li>
+                        <li><a href="login.html" class="text-gray-400 hover:text-emerald-400 transition-colors duration-300 flex items-center group">
+                            <span class="mr-2 group-hover:mr-3 transition-all">👤</span> Login
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="animate-slide-in-right">
+                    <h4 class="font-bold mb-6 text-lg">Kontak</h4>
+                    <div class="space-y-3">
+                        <p class="text-gray-400 flex items-center">
+                            <span class="mr-3">📧</span> allhailartemis@gmail.com
+                        </p>
+                        <p class="text-gray-400 flex items-center">
+                            <span class="mr-3">📍</span> Bandung, Indonesia
+                        </p>
+                        <p class="text-gray-400 flex items-center">
+                            <span class="mr-3">📱</span> +62 800 999 111
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 ARTEMIS. Semua hak dilindungi. Made with 💚 for Indonesian Wildlife
+                </p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Fetching wildlife data from the backend API
+    fetch('/api/data-hewan')
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('data-hewan-container');
+            container.innerHTML = ''; // Clear the container before adding new data
+
+            let isPopUpVisible = false;  // Flag to check if popup is visible
+            let currentHoveredCard = null; // Track the currently hovered card
+
+            data.forEach((hewan, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.setAttribute('data-index', index); // Add index to identify card position
+
+                // Create HTML content for each wildlife entry
+                card.innerHTML = `
+                    <img src="${hewan.urlfoto}" alt="${hewan.nama_hewan}" class="w-full h-48 object-cover">
+                    <div class="mt-2 mb-2 text-center font-semibold text-gray-800">${hewan.nama_hewan}</div>
+                `;
+
+
+                // Handle hover event
+                card.addEventListener('mouseenter', () => {
+                    if (!isPopUpVisible || currentHoveredCard !== card) {
+                        // Display the popup with detailed information
+                        const popup = document.getElementById('popup-card');
+                        popup.classList.add('visible');
+                        popup.classList.remove('invisible');
+                        
+                        document.getElementById('popup-name').textContent = hewan.nama_hewan;
+                        document.getElementById('popup-latin').textContent = hewan.nama_latin;
+                        document.getElementById('popup-description').textContent = hewan.deskripsi;
+                        document.getElementById('popup-status').textContent = 'Status Perlindungan: ' + hewan.status_lindungi;
+                        document.getElementById('popup-region').textContent = 'Wilayah: ' + hewan.wilayah;
+                        document.getElementById('popup-population').textContent = 'Populasi: ' + hewan.populasi;
+                        document.getElementById('popup-img').src = hewan.urlfoto;
+                        document.getElementById('popup-link').href = hewan.urlfoto;
+
+                        // Update the visibility flag and track the currently hovered card
+                        isPopUpVisible = true;
+                        currentHoveredCard = card; // Track the currently hovered card
+                    }
                 });
-            })
-            .catch(err => {
-                console.error('❌ Gagal mengambil data hewan:', err);
+
+                // Handle mouse leave event to hide the popup
+                card.addEventListener('mouseleave', () => {
+                    // If the mouse leaves the card, do not immediately hide the popup
+                    // Let the mouse move outside all cards and the popup itself to hide it
+                });
+
+                // Add the card to the container
+                container.appendChild(card);
             });
-    </script>
+
+            // Detect if cursor is outside of any card and close the popup
+            document.addEventListener('mousemove', (event) => {
+                // Check if cursor is outside the container and all cards (not hovering any card)
+                const isCursorOutside = !container.contains(event.target) && !document.getElementById('popup-card').contains(event.target);
+
+                if (isCursorOutside && isPopUpVisible) {
+                    const popup = document.getElementById('popup-card');
+                    popup.classList.remove('visible'); // Hide the popup if cursor is outside
+                    popup.classList.add('invisible');
+                    isPopUpVisible = false; // Mark the popup as invisible
+                }
+            });
+        })
+        .catch(err => {
+            console.error('❌ Gagal mengambil data hewan:', err);
+        });
+
+                // Typing effect for main title
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            element.style.borderRight = '2px solid #10b981';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    // Blinking cursor effect
+                    setInterval(() => {
+                        element.style.borderRight = element.style.borderRight === 'none' ? '2px solid #10b981' : 'none';
+                    }, 750);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect
+        window.addEventListener('load', () => {
+            const titleElement = document.querySelector('.typing-effect');
+            if (titleElement) {
+                typeWriter(titleElement, 'Satwa dilindungi', 150);
+            }
+        });
+
+</script>
+
 </body>
 </html>

@@ -4,75 +4,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unggah Satwa - Perlindungan Satwa</title>
-    <style>
-        header {
-            background-color: #4CAF50;
-            padding: 10px 0;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        }
+                    }
+                }
+            }
         }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 20px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        nav ul li a:hover {
-            color: #FFDD57;
-        }
-    </style>
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="admin-dashboard.html">Dashboard</a></li>
-                <li><a href="manajemen-satwa.html">Manajemen Satwa</a></li>
-                <li><a href="upload-satwa.html">Upload Satwa</a></li>
-                <li><a href="hasil-laporan.html">Hasil Laporan</a></li>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 min-h-screen">
+    <!-- Header with glassmorphism effect -->
+    <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 shadow-2xl relative overflow-hidden">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/20 via-teal-600/20 to-cyan-600/20"></div>
+        <div class="absolute top-0 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-xl animate-pulse-slow"></div>
+        <div class="absolute bottom-0 right-1/3 w-24 h-24 bg-white/5 rounded-full blur-lg animate-bounce-slow"></div>
+        
+        <nav class="relative z-10 container mx-auto px-6">
+            <ul class="flex justify-center items-center py-6 space-x-2">
+                <li><a href="admin-dashboard.html" class="group px-6 py-3 text-white font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-lg hover:scale-105 active:scale-95">
+                    <i class="fas fa-chart-line mr-2 group-hover:animate-bounce"></i>Dashboard
+                </a></li>
+                <li><a href="manajemen-satwa.html" class="group px-6 py-3 text-white font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-lg hover:scale-105 active:scale-95">
+                    <i class="fas fa-paw mr-2 group-hover:animate-bounce"></i>Manajemen Satwa
+                </a></li>
+                <li><a href="upload-satwa.html" class="group px-6 py-3 text-white font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-lg hover:scale-105 active:scale-95">
+                    <i class="fas fa-cloud-upload-alt mr-2 group-hover:animate-bounce"></i>Upload Satwa
+                </a></li>
+                <li><a href="hasil-laporan.html" class="group px-6 py-3 text-white font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-lg hover:scale-105 active:scale-95">
+                    <i class="fas fa-file-alt mr-2 group-hover:animate-bounce"></i>Hasil Laporan
+                </a></li>
+                <!-- Logout Button -->
+                <li><a href="login.html" class="group px-6 py-3 text-white font-semibold text-lg rounded-xl transition-all duration-300 hover:bg-white/20 hover:backdrop-blur-sm hover:shadow-lg hover:scale-105 active:scale-95">
+                    <i class="fas fa-sign-out-alt mr-2 group-hover:animate-bounce"></i>Logout
+                </a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Formulir Unggah Satwa -->
-    <h1>Unggah Informasi Satwa</h1>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <label for="nama_hewan">Nama Hewan:</label>
-        <input type="text" name="nama_hewan" id="nama_hewan" required><br><br>
+    <div class="container mx-auto px-6 py-12">
+        <!-- Title Section -->
+        <div class="text-center mb-12 animate-fade-in">
+            <h1 class="text-5xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-4">
+                <i class="fas fa-cloud-upload-alt mr-4"></i>Unggah Informasi Satwa
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Tambahkan data satwa baru ke dalam sistem perlindungan satwa dengan formulir yang mudah digunakan
+            </p>
+            <div class="w-24 h-1 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto mt-6 rounded-full"></div>
+        </div>
 
-        <label for="nama_latin">Nama Latin:</label>
-        <input type="text" name="nama_latin" id="nama_latin" required><br><br>
+        <!-- Upload Form -->
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 animate-slide-up">
+                <div class="p-8">
+                    <form action="/upload" method="POST" enctype="multipart/form-data" class="space-y-8">
+                        <!-- Row 1: Nama Hewan & Nama Latin -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label for="nama_hewan" class="flex items-center text-lg font-semibold text-gray-700">
+                                    <i class="fas fa-tag text-emerald-500 mr-3"></i>
+                                    Nama Hewan
+                                </label>
+                                <input type="text" name="nama_hewan" id="nama_hewan" required
+                                       class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700"
+                                       placeholder="Masukkan nama hewan">
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="nama_latin" class="flex items-center text-lg font-semibold text-gray-700">
+                                    <i class="fas fa-microscope text-emerald-500 mr-3"></i>
+                                    Nama Latin
+                                </label>
+                                <input type="text" name="nama_latin" id="nama_latin" required
+                                       class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700 italic"
+                                       placeholder="Masukkan nama latin">
+                            </div>
+                        </div>
 
-        <label for="deskripsi">Deskripsi:</label>
-        <textarea name="deskripsi" id="deskripsi" rows="4" required></textarea><br><br>
+                        <!-- Row 2: Deskripsi -->
+                        <div class="space-y-2">
+                            <label for="deskripsi" class="flex items-center text-lg font-semibold text-gray-700">
+                                <i class="fas fa-info-circle text-emerald-500 mr-3"></i>
+                                Deskripsi
+                            </label>
+                            <textarea name="deskripsi" id="deskripsi" rows="4" required
+                                      class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700 resize-none"
+                                      placeholder="Berikan deskripsi lengkap tentang satwa ini..."></textarea>
+                        </div>
 
-        <label for="status_lindungi">Status Lindungi:</label>
-        <select name="status_lindungi" id="status_lindungi" required>
-            <option value="Dilindungi">Dilindungi</option>
-            <option value="Terancam Punah">Terancam Punah</option>
-            <option value="Punah">Punah</option>
-            <option value="Tidak Dilindungi">Tidak Dilindungi</option>
-        </select><br><br>
+                        <!-- Row 3: Status & Wilayah -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label for="status_lindungi" class="flex items-center text-lg font-semibold text-gray-700">
+                                    <i class="fas fa-shield-alt text-emerald-500 mr-3"></i>
+                                    Status Lindungi
+                                </label>
+                                <select name="status_lindungi" id="status_lindungi" required
+                                        class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700">
+                                    <option value="">Pilih Status</option>
+                                    <option value="Dilindungi">Dilindungi</option>
+                                    <option value="Terancam Punah">Terancam Punah</option>
+                                    <option value="Punah">Punah</option>
+                                    <option value="Tidak Dilindungi">Tidak Dilindungi</option>
+                                </select>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="wilayah" class="flex items-center text-lg font-semibold text-gray-700">
+                                    <i class="fas fa-map-marker-alt text-emerald-500 mr-3"></i>
+                                    Wilayah
+                                </label>
+                                <input type="text" name="wilayah" id="wilayah" required
+                                       class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700"
+                                       placeholder="Masukkan wilayah habitat">
+                            </div>
+                        </div>
 
-        <label for="wilayah">Wilayah:</label>
-        <input type="text" name="wilayah" id="wilayah" required><br><br>
+                        <!-- Row 4: Populasi & File Upload -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label for="populasi" class="flex items-center text-lg font-semibold text-gray-700">
+                                    <i class="fas fa-users text-emerald-500 mr-3"></i>
+                                    Populasi
+                                </label>
+                                <input type="number" name="populasi" id="populasi" required
+                                       class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700"
+                                       placeholder="Jumlah populasi estimasi" min="0">
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="file" class="flex items-center text-lg font-semibold text-gray-700">
+                                    <i class="fas fa-image text-emerald-500 mr-3"></i>
+                                    Foto Satwa
+                                </label>
+                                <div class="relative">
+                                    <input type="file" name="file" id="file" required accept="image/*"
+                                           class="w-full px-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition-all duration-300 text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200">
+                                </div>
+                            </div>
+                        </div>
 
-        <label for="populasi">Populasi:</label>
-        <input type="number" name="populasi" id="populasi" required><br><br>
+                        <!-- Submit Button -->
+                        <div class="flex justify-center pt-8">
+                            <button type="submit" 
+                                    class="group px-12 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold text-lg rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 active:scale-95 flex items-center space-x-3">
+                                <i class="fas fa-cloud-upload-alt text-xl group-hover:animate-bounce"></i>
+                                <span>Unggah Data Satwa</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <label for="file">Pilih Foto Hewan:</label>
-        <input type="file" name="file" id="file" required><br><br>
-
-        <button type="submit">Unggah</button>
-    </form>
+    <!-- Floating particles animation -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-emerald-400/30 rounded-full animate-ping" style="animation-delay: 0s;"></div>
+        <div class="absolute top-1/3 right-1/4 w-1 h-1 bg-teal-400/40 rounded-full animate-ping" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 bg-cyan-400/35 rounded-full animate-ping" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/2 right-1/3 w-1 h-1 bg-blue-400/30 rounded-full animate-ping" style="animation-delay: 3s;"></div>
+    </div>
 
     <script>
         // Fungsi untuk menangani query string message

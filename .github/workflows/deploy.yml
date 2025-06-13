@@ -25,18 +25,18 @@ jobs:
     - name: Deploy to VM
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          echo "Navigating to the ARTEMIS-Frontend directory"
-          cd /var/www/website/ARTEMIS-Frontend  
-          
-          echo "Pulling latest changes from GitHub"
-          git pull origin main
+          echo "Pull latest Docker image"
+          docker pull your-dockerhub-username/artemis-backend-docker:latest
 
-          echo "Checking git status"
-          git status  # Menampilkan status setelah git pull
+          echo "Stop existing container"
+          docker stop artemis-backend-container || true
+          docker rm artemis-backend-container || true
 
-          echo "Viewing the last commits"
-          git log --oneline -n 5  # Menampilkan 5 commit terakhir
+          echo "Run new container"
+          docker run -d -p 3000:3000 --name artemis-backend-container \
+            -v /home/nrizkynugraha/ARTEMIS-Backend/.env:/app/.env \
+            -v /home/nrizkynugraha/ARTEMIS-Backend/gcs-key.json:/app/gcs-key.json \
+            your-dockerhub-username/artemis-backend-docker:latest
 
-          echo "Restarting Nginx"
-          sudo systemctl restart nginx
+          echo "Deployment done!"
         EOF

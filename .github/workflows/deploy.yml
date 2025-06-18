@@ -1,42 +1,64 @@
-name: CI/CD
+name: CI/CD Frontend Docker
 
 on:
   push:
     branches:
-      - main
+      - main # Ini akan memicu alur setiap kali push ke branch 'main'
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    
+  deploy_frontend_docker:
+    runs-on: ubuntu-latest # Menggunakan runner Ubuntu terbaru dari GitHub Actions
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-    
+      uses: actions/checkout@v2 # Mengambil kode dari repositori GitHub
+
     - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
+      uses: webfactory/ssh-agent@v0.5.3 # Mengatur koneksi SSH ke VM frontend
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} # Menggunakan SSH private key dari GitHub Secrets
 
-    - name: Test SSH connection
+    - name: Test SSH connection to Frontend VM
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection is successful!'"
+        # Menguji koneksi SSH ke VM frontend
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection to Frontend VM is successful!'"
 
-    - name: Deploy to VM
+    - name: Build Frontend Docker Image
+      # Membangun image Docker dari Dockerfile yang ada di root repositori frontend (folder 'Frontend')
+      run: |
+        docker build -t artemis-frontend-image:latest . 
+        
+    - name: Save Docker Image to Tar Archive
+      # Mengubah image Docker yang baru dibangun menjadi file .tar untuk transfer
+      run: |
+        docker save artemis-frontend-image:latest -o artemis-frontend-image.tar
+
+    - name: Transfer Docker Image to Frontend VM
+      # Menyalin file .tar image Docker ke direktori /tmp/ di VM frontend melalui SCP
+      run: |
+        scp -o StrictHostKeyChecking=no artemis-frontend-image.tar ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/artemis-frontend-image.tar
+
+    - name: Deploy Frontend to VM via Docker
+      # Menjalankan perintah di VM frontend melalui SSH untuk mendeploy container
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          echo "Navigating to the ARTEMIS-Frontend directory"
-          cd /var/www/website/ARTEMIS-Frontend  
+          echo "Loading Docker Image from Tar Archive"
+          # Memuat image Docker dari file .tar ke Docker daemon di VM
+          docker load -i /tmp/artemis-frontend-image.tar
+          rm /tmp/artemis-frontend-image.tar # Bersihkan file .tar setelah dimuat
+
+          echo "Stopping existing Frontend container (if any)"
+          # Menghentikan container frontend yang sedang berjalan (jika ada)
+          docker stop artemis-frontend-container || true
+
+          echo "Removing existing Frontend container (if any)"
+          # Menghapus container frontend yang sudah dihentikan (jika ada)
+          docker rm artemis-frontend-container || true
+
+          echo "Running new Frontend container"
+          # Menjalankan container frontend baru dari image yang baru dimuat
+          # Memetakan port 80 di VM host ke port 80 di dalam container
+          docker run -d -p 80:80 --name artemis-frontend-container artemis-frontend-image:latest
           
-          echo "Pulling latest changes from GitHub"
-          git pull origin main
-
-          echo "Checking git status"
-          git status  # Menampilkan status setelah git pull
-
-          echo "Viewing the last commits"
-          git log --oneline -n 5  # Menampilkan 5 commit terakhir
-
-          echo "Restarting Nginx"
-          sudo systemctl restart nginx
+          echo "Frontend Docker Deployment Complete!"
         EOF

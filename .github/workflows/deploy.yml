@@ -58,7 +58,7 @@ jobs:
           echo "Running new Frontend container"
           # Menjalankan container frontend baru dari image yang baru dimuat
           # Memetakan port 80 di VM host ke port 80 di dalam container
-          docker run -d -p 80:80 --name artemis-frontend-container artemis-frontend-image:latest
+          docker run -d -p 8080:80 --name artemis-frontend-container artemis-frontend-image:latest
           
           echo "Frontend Docker Deployment Complete!"
         EOF
